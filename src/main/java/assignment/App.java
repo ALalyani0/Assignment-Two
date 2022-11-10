@@ -1,7 +1,7 @@
 package assignment;
 
 //import Scanner class
-
+import java.util.Scanner;
 /*
 After the completion of this assignment, students should be able to: 
 •	Declare variables and constants 
@@ -14,7 +14,9 @@ After the completion of this assignment, students should be able to:
 public class App {
     
     //Declare two MIN_SCORE and MAX_SCORE constants below
-    
+ public static final double MIN_SCORE = 0.0;
+ 
+ public static final double MAX_SCORE = 10.0;
     /*
     ISBN Number is an International Standard Book Number that is used by libraries, publishers, booksellers, etc to identify whether a book is for sale or not. It consists of 10 digits and include a check digit to validate the number; for example:  ISBN 87 - 11 - 07559 – 7. Implement the method called calculateISBNCheck that computes the check digit of a given 9 digits and displays the fully ISBN number. 
     Note: The check digit is calculated by multiplying the first digit by 10, the second digit by 9, the third digit by 8, ..., the ninth digit by 2 and add up all these numbers. The check digit is the number you have to add to this total to get up to a multiple of 11. For example, we would calculate the check digit of 871107559, as follows:
@@ -34,7 +36,41 @@ public class App {
     */
     public static String calculateISBNCheck (int number){
         /* Write your code here */
-    }
+        
+        String numberLength= Integer.toString(number);
+         int sum;
+         String ISBN="";
+         int remainder=0;
+         int checkDigit=0;
+         String val="";
+        if (numberLength.length()==9){
+sum =((number/100000000)*10)+(((number%100000000)/10000000)*9)+(((number%10000000)/1000000)*8)+(((number%1000000)/100000)*7)+(((number%100000)/10000)*6)+(((number%10000)/1000)*5)+(((number%1000)/100)*4)+(((number%100)/10)*3)+((number%10)*2);
+        
+if (sum%11 !=0){
+remainder = sum%11;
+}
+else if (sum%11 ==0){
+remainder = 0;
+}
+if (remainder ==0)
+checkDigit = 0;
+else
+checkDigit = 11-remainder;
+if (checkDigit ==1){
+val = "X";
+}
+else if (checkDigit!=1){
+val = Integer.toString(checkDigit);
+}
+else if (checkDigit==0)
+val ="0";
+ISBN =numberLength + val;
+return ISBN;            
+}
+else
+return "please input a valid number";
+    
+}
 
     
     /*
@@ -63,6 +99,11 @@ public class App {
     
     public static boolean isValidDNA (String str){
         /* Write your code here */
+        if (((str.indexOf("A")>=0)||(str.indexOf("a")>=0))&&((str.indexOf("C")>=0||str.indexOf("c")>=0))&&((str.indexOf("T")>=0||str.indexOf("t")>=0))&&((str.indexOf("G")>=0)||(str.indexOf("g")>=0)))
+        return true;
+        else
+        return false;
+    
     }
  
     /*
@@ -81,6 +122,19 @@ public class App {
     
     public static int calculateCommon (String str1, String str2){
         /* Write your code here */
+        String unify = str1.toLowerCase();
+    String secondUnify = str2.toLowerCase();
+    int counter=0;
+    int i = 0;
+    while ((i<unify.length())&&(i<secondUnify.length())){
+        if(unify.charAt(i)==secondUnify.charAt(i))
+        counter++; 
+        i++;
+    }   
+    if (counter ==1)
+    return 1;
+    else
+    return 2; 
     }
     
     /* 
@@ -91,6 +145,17 @@ public class App {
     */
     public static boolean checkPalindrome (int num){
         /* Write your code here */
+        String strNumber = Integer.toString(num);
+      int i = strNumber.length();
+      String reversedNumber="";
+      while (i>0){
+        reversedNumber = reversedNumber+strNumber.charAt(i-1);
+        i--;
+      }
+      if (strNumber.equals(reversedNumber))
+      return true;
+      else
+      return false;
     }
     
      /* 
@@ -101,6 +166,18 @@ public class App {
 
     public static int drawBarChart (int num){
            /* Write your code here */
+           String numberLength = Integer.toString(num);
+     String numberWithAsterisks="";
+     int numberOfAsterisks;
+     if ((numberLength.length()==5)&&(checkPalindrome(num)==true)){
+    numberWithAsterisks = numberLength.charAt(0)+""+numberLength.charAt(1)+""+numberLength.charAt(2)+"*"+numberLength.charAt(3)+""+numberLength.charAt(4)+"";  
+    numberOfAsterisks = Integer.parseInt(String.valueOf(numberLength.charAt(0)))+Integer.parseInt(String.valueOf(numberLength.charAt(1)))+Integer.parseInt(String.valueOf(numberLength.charAt(2)))+Integer.parseInt(String.valueOf(numberLength.charAt(3)))+Integer.parseInt(String.valueOf(numberLength.charAt(4)));
+    System.out.println("1: *2: **3: ***2: **1: *");
+    return numberOfAsterisks;
+     }
+     else 
+     return 0;
+     //"1: 2: **3: **2: **1: *"
     }
 
     /*
@@ -117,6 +194,22 @@ public class App {
 
     public static void main(String[] args) {
         /* Write your code here */
-       
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter a 9 digit number");
+        int n1 = input.nextInt();
+        System.out.println(calculateISBNCheck(n1));
+        System.out.println("---------------------------");
+        System.out.println("Please enter a DNA sequence");
+        String dna = input.next();
+        System.out.println(isValidDNA(dna));
+        System.out.println("----------------------------");
+        System.out.println("Please enter two strings");
+        String str1 = input.next();
+        String str2 = input.next();
+        System.out.println(calculateCommon(str1, str2));
+        System.out.println("----------------------------");
+        System.out.println("Plesae enter a five digit number");
+        int n2 = input.nextInt();
+        input.close();
     }
 }
